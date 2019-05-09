@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="/css/materialize.min.css" media="screen,projection"/>
+	<link type="text/css" rel="stylesheet" href="/css/highlight/default.css">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+	<style type="text/css" media="screen">
+	.editor {
+		position: relative;
+		width: 100%;
+		height: 80vh;
+	}
+
+	.card-editor {
+		padding: 5px !important;
+		background-color: #282A36 !important;
+	}
+
+	.nav {
+		background-color: #333;
+	}
+
+	.gamesense-green {
+		color: #95B817 !important;
+	}
+
+	.gamesense-green-bg {
+		background-color: #95B817 !important;
+	}
+</style>
+</head>
+
+<body class="grey darken-4">
+	<nav class="nav" role="navigation">
+		<div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo gamesense-green">Lua optimizer</a>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="section" style="margin-top: 20px;">
+			<div class="row">
+				<div class="col s11">
+					<div class="card blue-grey z-depth-2">
+						<div class="card-content card-editor white-text">
+							<div class="editor" id="editor"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col s1">
+					<a id="btn-optimize" class="waves-effect waves-light btn-large white-text gamesense-green-bg" style="margin-top: 8px;">Optimize</a>
+					<a id="btn-beautify" class="waves-effect waves-light btn white-text gamesense-green-bg" style="margin-top: 8px; padding-left: 31px; padding-right: 31px;">Beautify</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="/js/materialize.min.js"></script>
+	<script type="text/javascript" src="/js/ace/ace.js"></script>
+	<script type="text/javascript" src="/js/ace/lua.js"></script>
+	<script type="text/javascript" src="/js/ace/language_tools.js"></script>
+	<script type="text/javascript" src="/js/ace/lua_worker.js"></script>
+	<script type="text/javascript" src="/js/ace/dracula.js"></script>
+	<script type="text/javascript" src="/js/luaparse.js"></script>
+	<script type="text/javascript" src="/js/main.js"></script>
+</body>
+</html>
