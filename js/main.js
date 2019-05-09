@@ -187,7 +187,6 @@ function optimize(code, localsOnly) {
 
 	// optimize actual calls by replacing all dot-syntax (client.log) with underscore syntax (client_log)
 	localization.forEach(function(local){
-		console.log("replacing " + local)
 		code = code.split(`${local[0]}.${local[1]}`).join(`${local[0]}_${local[1]}`)
 	})
 
@@ -195,7 +194,7 @@ function optimize(code, localsOnly) {
 		return code.slice(0, codeIndex) + locals + code.slice(codeIndex)
 	}
 
-	return `${header}${locals}\n${code}`
+	return `${header}\n${locals}\n${code}`
 }
 
 // setup ace editor
