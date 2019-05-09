@@ -194,7 +194,7 @@ function optimize(code, localsOnly) {
 		return code.slice(0, codeIndex) + locals + code.slice(codeIndex)
 	}
 
-	return `${header}\n${locals}\n${code}`
+	return `${header}\n${locals}\n\n${code}`
 }
 
 // setup ace editor
