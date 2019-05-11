@@ -33,7 +33,19 @@
 	margin-top: 8px;
 }
 
+@media only screen and (min-width: 993px) {
+	#toast-container {
+		right: unset;
+		left: 7%;
+	}
+}
+
 @media only screen and (max-width: 768px) {
+	#toast-container {
+		bottom: unset;
+		top: 9%;
+	}
+
 	.editor {
 		max-height: 72vh;
 	}

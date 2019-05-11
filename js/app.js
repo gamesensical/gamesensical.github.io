@@ -129,18 +129,30 @@ function optimize(code, localsOnly) {
 	// if code contains our header treat the next line after it as previous localization (ignored on generation, replaced with new version)
 	if(code.indexOf(header) != -1){
 		// find index of comment
-		commentIdx = code.indexOf(header)
+		codeIndex = code.indexOf(header) + header.length
 
-		// get code starting from comment
-		localsLine = code.slice(commentIdx+1)
-		localsLine = localsLine.slice(localsLine.indexOf("\n")+1, localsLine.indexOf("\n", localsLine.indexOf("\n")+1))
-		codeIndex = code.indexOf(localsLine)
+		// get code starting from end of comment
+		localsLine = code.slice(codeIndex)
 
-		code = code.slice(0, codeIndex) + code.slice(codeIndex+localsLine.length)
+		// get to next line
+		codeIndex += localsLine.indexOf("\n")+1
+		localsLine = localsLine.slice(localsLine.indexOf("\n")+1)
+
+		// remove line
+		code = code.slice(0, codeIndex) + code.slice(codeIndex+localsLine.indexOf("\n"))
 	}
 
 	// parse code into abstract syntax tree (if required)
-	let ast = (code && code.type == 'Chunk') ? code : luaparse.parse(code)
+	let ast = code
+	if(!ast || ast.type != 'Chunk'){
+		try {
+			ast = luaparse.parse(ast)
+		} catch(e) {
+			console.log(`Failed to parse lua code: ${e.toString()}`)
+			M.toast({html: `<span class="red-text">${e.toString()}</span>`, displayLength: 8000})
+			return
+		}
+	}
 
 	// traverse AST to find local variable assignments and calls to non-locals
 	let callsToNonLocals = [], assignments = []
@@ -214,16 +226,18 @@ if(document.getElementById("btn-beautify")){
 		let cursor = editor.getCursorPosition()
 		let result = luaBeautifier(editor.getValue(), "\t")
 		editor.setValue(result, -1)
-		editor.clearSelection()
 		editor.selection.moveTo(cursor.row, cursor.column)
 	})
 }
 
 if(document.getElementById("btn-optimize")){
 	document.getElementById("btn-optimize").addEventListener("click", function(){
+		let cursor = editor.getCursorPosition()
 		let result = optimize(editor.getValue())
-		editor.setValue(result, -1)
-		editor.clearSelection()
+		if(result){
+			editor.setValue(result, -1)
+			editor.selection.moveTo(cursor.row, cursor.column)
+		}
 	})
 }
 
@@ -244,3 +258,12 @@ if(typeof(Storage) !== "undefined") {
 	editor.on("change", update)
 	editor.on("blur", update)
 }
+
+document.addEventListener("keydown", function(e) {
+	if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
+		e.preventDefault()
+		if(editor && download){
+			download(editor.getValue(), "script.lua", "text/plain");
+		}
+	}
+}, false);
