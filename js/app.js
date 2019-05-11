@@ -99,7 +99,7 @@ function traverseAST(object, callsToNonLocals, assignments, i){
 		// get expression
 		let callExpression = object.type == 'CallStatement' ? object.expression : object
 
-		if(callExpression.base.type == 'MemberExpression' && callExpression.base.indexer == '.' && callExpression.base.base != null) {
+		if(callExpression.base.type == 'MemberExpression' && callExpression.base.indexer == '.' && callExpression.base.base != null && callExpression.base.base.name != null) {
 			// call to a function in a table (client.log)
 			callsToNonLocals.push([callExpression.base.base.name, callExpression.base.identifier.name, i])
 		} else if(callExpression.base.type == 'Identifier' && callExpression.base.name.match(/_/g) && (callExpression.base.name.match(/_/g)).length >= 1){
